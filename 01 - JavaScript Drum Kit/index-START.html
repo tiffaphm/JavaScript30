@@ -63,16 +63,20 @@
     const audio = document.querySelector(`audio[data-key="${dataKey}"]`);
     const audioKey = document.querySelector(`div[data-key="${dataKey}"]`)
 
+    if (!audio) return;
+
+    audio.currentTime = 0;
     audioKey.classList.add('playing');
     audio.play();
   }
 
   function removeTransition(event) {
-    event.target.classList.remove('playing');
+    if (event.propertyName !== 'transform') return;
+    this.classList.remove('playing');
   }
 
   window.addEventListener('keydown', playSoundOnKeyDown);
-  const keys = Array.from(document.getElementsByClassName('key'));
+  const keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 </script>
 
